@@ -15,6 +15,7 @@ import sys
 import threading
 import time
 import requests
+import subprocess
 
 CONFIG_PATH = os.environ.get('CONFIG_PATH', os.getcwd())
 
@@ -58,10 +59,11 @@ def getIPs():
     global purgeUnknownRecords
     if ipv4_enabled:
         try:
-            a = requests.get(
-                "https://1.1.1.1/cdn-cgi/trace").text.split("\n")
-            a.pop()
-            a = dict(s.split("=") for s in a)["ip"]
+            #  a = requests.get(
+            #      "https://1.1.1.1/cdn-cgi/trace").text.split("\n")
+            #  a.pop()
+            #  a = dict(s.split("=") for s in a)["ip"]
+            a = subprocess.getoutput("ip addr show dev wlan0 | grep 'inet ' | sed -e 's/^.*inet //' -e 's/\/.*//'")
         except Exception:
             global shown_ipv4_warning
             if not shown_ipv4_warning:
