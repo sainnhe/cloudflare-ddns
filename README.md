@@ -1,3 +1,25 @@
+`/etc/systemd/system/cloudflare-ddns.service`:
+
+```service
+[Unit]
+Description=Update DNS Records
+
+[Service]
+Type=simple
+ExecStart=sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then `sudo systemctl enable --now cloudflare-ddns.service`.
+
+**Requirements:**
+
+Install python3 requests.
+
+---
+
 <p align="center"><a href="https://timknowsbest.com/free-dynamic-dns" target="_blank" rel="noopener noreferrer"><img width="1024" src="feature-graphic.jpg" alt="Cloudflare DDNS"/></a></p>
 
 # 🚀 Cloudflare DDNS
