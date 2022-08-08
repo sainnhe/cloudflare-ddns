@@ -1,12 +1,19 @@
+**Requirements:**
+
+Install python3 requests.
+
+**Usage:**
+
 `/etc/systemd/system/cloudflare-ddns.service`:
 
 ```service
 [Unit]
 Description=Update DNS Records
+Requires=wpa_supplicant.service
 
 [Service]
 Type=simple
-ExecStart=sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
+ExecStart=/usr/bin/sh -c 'sleep 3 && cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
 
 [Install]
 WantedBy=multi-user.target
@@ -14,9 +21,13 @@ WantedBy=multi-user.target
 
 Then `sudo systemctl enable --now cloudflare-ddns.service`.
 
-**Requirements:**
+Execute `crontab -e`
 
-Install python3 requests.
+Add:
+
+```txt
+*/15 * * * * /usr/bin/sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
+```
 
 ---
 
