@@ -1,33 +1,4 @@
-**Requirements:**
-
-Install python3 requests.
-
-**Usage:**
-
-`/etc/systemd/system/cloudflare-ddns.service`:
-
-```service
-[Unit]
-Description=Update DNS Records
-Requires=wpa_supplicant.service
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/sh -c 'sleep 3 && cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Then `sudo systemctl enable --now cloudflare-ddns.service`.
-
-Execute `crontab -e`
-
-Add:
-
-```txt
-*/15 * * * * /usr/bin/sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
-```
+For those who don't have a public IP address, this fork will read the ipv4 address of `wlan0` interface and update related DNS record.
 
 ---
 
@@ -232,21 +203,38 @@ kubectl apply -f cloudflare-ddns-Deployment.yaml
 
 ### 🏃 Running (all distros)
 
-This script requires Python 3.5+, which comes preinstalled on the latest version of Raspbian. Download/clone this repo and give permission to the project's bash script by running `chmod +x ./start-sync.sh`. Now you can execute `./start-sync.sh`, which will set up a virtualenv, pull in any dependencies, and fire the script.
+**Requirements:**
 
-1. Upload the cloudflare-ddns folder to your home directory /home/your_username_here/
+Install python3 requests.
 
-2. Run the following code in terminal
+**Usage:**
 
-```bash
-crontab -e
+Add new file `/etc/systemd/system/cloudflare-ddns.service`:
+
+```service
+[Unit]
+Description=Update DNS Records
+Requires=wpa_supplicant.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sh -c 'sleep 3 && cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
+
+[Install]
+WantedBy=multi-user.target
 ```
 
-3. Add the following lines to sync your DNS records every 15 minutes
+Then `sudo systemctl enable --now cloudflare-ddns.service`.
 
-```bash
-*/15 * * * * /home/your_username_here/cloudflare-ddns/start-sync.sh
+Execute `crontab -e`
+
+Add:
+
+```txt
+*/15 * * * * /usr/bin/sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
 ```
+
+Replace paths to yours.
 
 ## Building from source
 
