@@ -199,15 +199,15 @@ apply this Deployment
 kubectl apply -f cloudflare-ddns-Deployment.yaml
 ```
 
-## 🐧 Deploy with Linux + Cron
-
-### 🏃 Running (all distros)
+## 🐧 Deploy with Linux
 
 **Requirements:**
 
-Install python3 requests.
+Install python3-requests.
 
 **Usage:**
+
+Clone this repository, execute `chmod a+x ./cloudflare-ddns.py`.
 
 Add new file `/etc/systemd/system/cloudflare-ddns.service`:
 
@@ -218,7 +218,7 @@ Requires=wpa_supplicant.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/sh -c 'sleep 3 && cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
+ExecStart=/usr/bin/sh -c 'sleep 10 && cd /home/sainnhe/repo/cloudflare-ddns && python3 /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
 
 [Install]
 WantedBy=multi-user.target
@@ -231,7 +231,7 @@ Execute `crontab -e`
 Add:
 
 ```txt
-*/15 * * * * /usr/bin/sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
+*/15 * * * * /usr/bin/sh -c 'cd /home/sainnhe/repo/cloudflare-ddns && python3 /home/sainnhe/repo/cloudflare-ddns/cloudflare-ddns.py'
 ```
 
 Replace paths to yours.
